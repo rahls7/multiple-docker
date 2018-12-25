@@ -1,0 +1,20 @@
+sudo: required
+services:
+  - docker
+before_install:
+  - docker build -t rahls7/react-test -f  ./client/Dockerfile.dev ./client
+
+script:
+  - docker run rahls7/react-test npm test -- --coverage
+
+after_success:
+  - docker build -t rahls7/multi-client ./client
+  - docker build -t rahls7/multi-nginx ./nginx
+  - docker build -t rahls7/multi-server ./server
+  - docker build -t rahls7/multi-worker ./worker
+
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push rahls7/multi-client
+  - docker push rahls7/multi-nginx
+  - docker push rahls7/multi-server
+  - docker push rahls7/multi-worker
