@@ -20,10 +20,10 @@ after_success:
   - docker push rahls7/multi-worker
 deploy:
   provider: elasticbeanstalk
-  region: us-west-1
+  region: us-east-2
   app: multi-docker
   env: MultiDocker-env
-  bucket_name: elasticbeanstalk-us-west-1-306476627547
+  bucket_name: elasticbeanstalk-us-east-2-349378957867
   bucket_path: docker-multi
   on:
     branch: master
